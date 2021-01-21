@@ -1,0 +1,59 @@
+; 2018A7PS0209H - Jhaveri Aditya Alok - f20180209@hyderabad.bits-pilani.ac.in
+; 2018A7PS0195H - Arpan Sarangi - f20180195@hyderabad.bits-pilani.ac.in
+; 2018A7PS0191H - Ridhiman Agrawal - f20180191@hyderabad.bits-pilani.ac.in
+; 2018A7PS0267H - Divyanshu Agrawal - f20180267@hyderabad.bits-pilani.ac.in
+; 2018A7PS0146H - Dhiraaj Desai - f20180146@hyderabad.bits-pilani.ac.in
+
+input:  
+    ; input to keyboard
+    IPA
+    ; skip the integer if it is negative
+    JMPN input
+
+    ; break loop on zero
+    JMPZ break
+
+    ; transfer the integer to the stack pointer
+    M2M stackPtr
+
+    ; increment stack pointer
+    LDA stackPtr
+    ADD one
+    STA stackPtr
+
+    ; next input
+    JMP input
+
+break:  
+    ; decrement stack pointer
+    LDA stackPtr
+    SUB one
+    STA stackPtr
+
+print:  
+    ; bring the integer stored in stack pointer and print it
+    M2A stackPtr
+    OPA
+
+    ; decrement stack pointer
+    LDA stackPtr
+    SUB one
+    STA stackPtr
+
+    ; subtract 100 to check if the stack has reached its bottom
+    LDA stackPtr
+    SUB baseOfStack
+    JMPN done
+    
+    ; print next integer
+    JMP print
+
+done:   
+    STOP
+
+
+; stack starts at 100
+stackPtr:  .data 1 100
+baseOfStack:  .data 1 100
+; used for increment and decrement
+one:    .data 1 1

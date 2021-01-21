@@ -1,0 +1,66 @@
+; 2018A7PS0209H - Jhaveri Aditya Alok - f20180209@hyderabad.bits-pilani.ac.in
+; 2018A7PS0195H - Arpan Sarangi - f20180195@hyderabad.bits-pilani.ac.in
+; 2018A7PS0191H - Ridhiman Agrawal - f20180191@hyderabad.bits-pilani.ac.in
+; 2018A7PS0267H - Divyanshu Agrawal - f20180267@hyderabad.bits-pilani.ac.in
+; 2018A7PS0146H - Dhiraaj Desai - f20180146@hyderabad.bits-pilani.ac.in
+
+
+input: 
+    ; input to keyboard
+    IPA
+    ; skip the integer if it is negative
+    JMPN input
+
+    ; break loop on zero
+    JMPZ break
+    
+    ; transfer the integer to the location pointer
+    M2M location
+
+    ; increment location pointer
+    LDA location
+    ADDA one
+    STA location
+       
+    ; number of positive elements increases by one
+    LDA count
+    ADDA one
+    STA count
+
+    ; next input
+    JMP input
+  
+break: 
+    ; take location pointer to location minus the number of elements
+    LDA location
+    SUBA count
+    STA location
+
+print: 
+    ; add the integer in the location to the sum and print it
+    M2A location
+    ADDA sum
+    STA sum
+    OPA
+   
+    ; increment location
+    LDA location
+    ADDA one
+    STA location
+    
+    ; decrement count
+    LDA count
+    SUBA one
+    ; jump to print if count is positive
+    STA count
+    JMPP print
+
+    STOP
+
+; location at which the input is stored
+location: .data 1 100
+; used for increment and decrement
+one: .data 1 1
+; number of elements
+count: .data 1 0
+sum: .data 1 0
